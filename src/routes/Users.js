@@ -6,14 +6,14 @@ import {UserModel} from "../models/Users.js";
 const router=express.Router();
 
 router.post("/register", async (req, res) => {
-    const { username, password } = req.body;
-    const user = await UserModel.findOne({ username });
+    const { username, password,email } = req.body;
+    const user = await UserModel.findOne({email});
   
     if (user) {
-      return res.json({ message: "User already exists" });
+      return res.json({message:"UserEmail already exists"});
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new UserModel({ username, password: hashedPassword });
+    const newUser = new UserModel({ username, password: hashedPassword,email });
   
     await newUser.save();
   
@@ -23,7 +23,6 @@ router.post("/register", async (req, res) => {
   router.post("/login", async (req,res) => {
       const {username,password}=req.body;
       const user=await UserModel.findOne({username});
-  
       if(!user){
           return res.json({message:"User does not exist"});
       }
@@ -32,7 +31,7 @@ router.post("/register", async (req, res) => {
       if(!isPasswordValid){
           return res.json({message:"Username or Password Invalid"});
       }
-  
+      
       const token=jwt.sign({id:user._id},"secret");
       res.json({token,userID:user._id});
   });
