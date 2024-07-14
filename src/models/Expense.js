@@ -7,6 +7,7 @@ const ExpenseSchema = new Schema({
   category: { type: String, required: true },
   description: { type: String, required: true },
   invoice: { type: String, required: true},
+  user: {type: mongoose.Schema.Types.ObjectId, ref: "users"},
 });
 
 // module.exports = mongoose.model('Expense', ExpenseSchema);

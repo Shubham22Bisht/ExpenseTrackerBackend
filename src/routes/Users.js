@@ -23,7 +23,6 @@ router.post("/register", async (req, res) => {
       const {userEmail,password}=req.body;
       const email=userEmail;
       const user=await UserModel.findOne({email});
-      console.log(user);
       if(!user){
           return res.json({message:"UserEmail does not exist"});
       }
